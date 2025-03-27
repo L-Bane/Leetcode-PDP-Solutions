@@ -1,5 +1,5 @@
 This repository contains all of the solutions for the problems completed.
-Please note that these solutions are meant to be run inside of the Leetcode IDE and, these files by themselves are not designed to run by themselves.
+Please note that these solutions are meant to be run inside of the Leetcode IDE and, these files by themselves are not designed to run by themselves. (Hence why their file extensions are .txt and not .java)
 Leetcode website link: https://leetcode.com/problemset/
 
 At the top of each file, the performance of the solution can be found. 
