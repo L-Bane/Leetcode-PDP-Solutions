@@ -1,0 +1,80 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 41.4MB (Beats 51.25%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        // Idea: Create two new lists: odd and even
+        // Return a new list of even, odd 
+
+        // When list is empty or contains one element, return the input
+        if (head == null || head.next == null){
+            return head;
+        }
+
+        // List of odd position elements
+        ListNode odd = new ListNode();
+        ListNode hOdd = odd;
+
+        // List of even position elements
+        ListNode even = new ListNode();
+        ListNode hEven = even;
+
+        // Merged even and odd list
+        ListNode result = new ListNode();
+        ListNode hResult = result;
+
+        ListNode temp = head;
+        int counter = 0;
+
+        // While at an even position, place the element into even (and vice versa)
+        while(temp != null){
+            if(counter % 2 == 1){
+                even.next = temp;
+                even = even.next;
+            } else{
+                odd.next = temp;
+                odd = odd.next;
+            }
+
+            counter++;
+            temp = temp.next;
+        }
+
+        // Set next value of the tails to null
+        odd.next = null;
+        even.next = null;
+
+        // Heads are currently null, get next value to get actual head
+        hOdd = hOdd.next;
+        hEven = hEven.next;
+
+        // Alternating between even then odd (since original was odd then even)
+        while (hOdd != null || hEven != null) {
+            if (hEven != null) {
+                result.next = hEven;
+                hEven = hEven.next;
+                result = result.next;
+            }
+            if (hOdd != null) {
+                result.next = hOdd;
+                hOdd = hOdd.next;
+                result = result.next;
+            }
+        }
+
+        // Head is null, so get actual head by returning the next ListNode
+        return hResult.next;
+    }
+}

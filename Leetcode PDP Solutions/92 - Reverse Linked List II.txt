@@ -1,0 +1,56 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 41.7MB (Beats 19.65%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        // Idea: Use a stack to store all the values that need to be reversed them pop them off once the right value is found
+
+        if (left == right || head == null || head.next == null) return head;
+
+        ListNode result = new ListNode(0); 
+        result.next = head;
+        ListNode prev = result; // Node before the sublist
+        int counter = 1;
+
+        // Move `prev` to the node just before the sublist starts
+        while (counter < left) {
+            prev = prev.next;
+            counter++;
+        }
+
+        // Start of the sublist
+        ListNode start = prev.next;
+        ListNode curr = start;
+        Stack<ListNode> stack = new Stack<>();
+
+        // Push nodes of the sublist into the stack
+        while (counter <= right) {
+            stack.push(curr);
+            curr = curr.next;
+            counter++;
+        }
+
+        // Reconnect the reversed sublist
+        while (!stack.isEmpty()) {
+            prev.next = stack.pop();
+            prev = prev.next;
+        }
+
+        // Connect the rest of the list
+        prev.next = curr;
+
+        return result.next;
+    }
+}

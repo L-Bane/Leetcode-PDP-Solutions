@@ -1,0 +1,33 @@
+/**
+ * Runtime: 3ms (Beats 96.13%)
+ * Memory: 58.12MB (Beats 31.62%)
+ */
+
+class Solution {
+    public int maxArea(int[] height) {
+        
+        // sliding window approach
+
+        int left = 0;
+        int right = height.length - 1;
+        int bestArea = 0;
+
+        while (left < right){
+            int currentArea = 0;
+            if (height[left] <= height[right]){
+                currentArea = height[left] * (right - left);
+                left++;
+            } else{
+                currentArea = height[right] * (right - left);
+                right--;            
+            }
+
+            if (currentArea > bestArea) {
+                bestArea = currentArea;
+            }
+
+        }
+        
+        return bestArea;
+    }
+}

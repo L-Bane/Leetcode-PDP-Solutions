@@ -1,0 +1,53 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 43.5MB (Beats 24.98%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        
+        // Just return input if head is null or only one element in the list
+        if (head == null || head.next == null) return head;
+
+        ListNode temp = head;
+        ListNode result = new ListNode(0);
+        ListNode hResult = result;
+
+        while (temp != null){
+            
+            if (temp.next != null){
+                // if the current and next value are the same...
+                if (temp.val == temp.next.val){
+                    // skip elements until the next item is not equal to the current item
+                    while (temp.next != null && (temp.val == temp.next.val)){
+                        temp = temp.next;
+                    }
+                    // step once more to go to the next item
+                    temp = temp.next;
+                    continue;
+                }
+            }
+
+            // item is not a duplicate so add to the list
+            result.next = temp;
+            result = result.next;
+
+            // get next item to be checked
+            temp = temp.next;
+        }
+
+        result.next = null;
+        
+        return hResult.next;
+    }
+}

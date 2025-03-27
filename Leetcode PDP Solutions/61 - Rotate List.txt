@@ -1,0 +1,62 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 42.6MB (Beats 47.84%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        //Idea: make a method to rotate once, then simply call it k times
+        // Simplyify k by taking k mod length, e.g. length = 3, k = 3, no rotations necessary
+        
+        // If there are none or one elements, return itself
+        if (head == null || head.next == null) return head;
+
+        // getting the length of the list
+        int counter = 0;
+        ListNode temp = head; 
+
+        while(temp != null){
+            temp = temp.next;
+            counter++;
+        }
+
+        // getting the number of necessary rotations
+        int rot = k % counter;
+
+        // rotating rot times
+        for (int i = 0; i < rot; i++){
+            head = singleRotate(head);
+        }
+        return head;
+    }
+
+    public ListNode singleRotate(ListNode head){
+
+        ListNode temp = head;
+
+        // Traverse to the second-to-last node
+        while (temp.next.next != null) {
+            temp = temp.next;
+        }
+
+        // temp is now the second-to-last node
+        ListNode tail = temp.next; // Last node
+        temp.next = null; // Break the list before the last node
+
+        // tail is now the head, make next item the prev head
+        tail.next = head;
+
+        return tail;
+        
+    }
+}

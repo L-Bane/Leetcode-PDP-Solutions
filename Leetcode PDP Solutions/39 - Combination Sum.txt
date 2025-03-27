@@ -1,0 +1,51 @@
+/**
+ * Runtime: 2ms (Beats 83.13%)
+ * Memory: 44.3MB (Beats 96.41%)
+ */
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        // If we have no candidates, just return 
+        if (candidates.length == 0) return result;
+
+        // Begining main algorithm
+        backtrack(result, candidates, target, new ArrayList<>(), 0, 0);
+
+        return result;
+        
+    }
+
+    public void backtrack(List<List<Integer>> result, int[] candidates, int target, List<Integer> current, int curSum, int curPos){
+
+        // Base Case: If the sum is equal to the target we are done
+        if (curSum == target){
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // Main Function: 
+        // Start at the beginning of the candidates
+        // Keep adding a number until the target is reached or, exceded
+        // Move onto the next possible number in each case that the target is not yet exceded 
+        for(int i = curPos; i < candidates.length; i++){
+            // Extract the current number
+            int candidate = candidates[i];
+
+            // Calculate the new sum
+            int newSum = curSum + candidate;
+
+            // target is exceded, skip to next candidate
+            if(newSum > target) continue;
+
+            // target has not been exceded, so add the candidate
+            // backtrack again, checking next possible cominations
+            current.add(candidate);
+            backtrack(result, candidates, target, current, (curSum + candidate), i);
+            // try the next possible candidate from the list by removing the candidate added
+            current.remove(current.size() -1);
+        }
+
+    }
+}

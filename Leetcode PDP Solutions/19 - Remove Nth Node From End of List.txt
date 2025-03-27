@@ -1,0 +1,55 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 41.4MB (Beats 94.8%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        
+        ListNode temp = head;
+        int counter = 0;
+
+        // Determining length of the list
+        while (temp != null){
+            counter++;
+            temp = temp.next;
+        }
+
+        // Calculating position to be removed
+        int pos = counter - n;
+        // Placing temp back to the head
+        temp = head;
+
+        // Iterating to the node before the node to be removed
+        for(int i = 1; i < pos; i++){
+            temp = temp.next;
+        }
+
+        // If head to be deleted, set head to the next value
+        if(pos == 0){
+            return (temp = temp.next);
+        }
+
+        // If tail is to be deleted, set tail to null
+        if(temp.next == null){ 
+            return (temp = null);
+        }
+
+        // All other cases, set the next node to its next node
+        ListNode pointer = (temp.next).next;
+        temp.next = pointer;
+
+        return head;
+
+    }
+}

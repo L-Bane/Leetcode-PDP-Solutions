@@ -1,0 +1,57 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Memory: 42.2MB (Beats 54.5%)
+ */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+
+        if (head == null || head.next == null) return head;
+
+        ListNode temp = head;
+
+        ListNode less = new ListNode(0);
+        ListNode more = new ListNode(0);
+        ListNode hLess = less;
+        ListNode hMore = more;
+
+        while (temp != null){
+            // < x, add to less list
+            if (temp.val < x){
+                less.next = temp;
+                less = less.next;
+            } else{
+                // > x, add to more list
+                more.next = temp;
+                more = more.next;
+            }
+
+            // Get next value
+            temp = temp.next;
+        }
+
+        // Terminate the list
+        more.next = null;
+        // Update head to actual head (not the dummy value)
+        hMore = hMore.next;
+        
+        // Add more list onto the end of the less list
+        less.next = hMore;
+        // Update head to actual head
+        hLess = hLess.next;
+
+        // Return the head
+        return hLess;
+        
+    }
+}

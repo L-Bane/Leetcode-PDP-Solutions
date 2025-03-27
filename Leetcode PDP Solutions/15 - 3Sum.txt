@@ -1,0 +1,46 @@
+/**
+ * Runtime: 302ms (Beats 22.69%)
+ * Memeory: 52.9MB (Beats 14.09%)
+ */
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        Set<List<Integer>> triplets = new HashSet<>();
+
+        Arrays.sort(nums);
+
+        for( int i = 0; i < nums.length - 2; i++){
+
+            int target = -nums[i]; 
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right){
+
+
+                if(target == nums[left] + nums[right]){
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(nums[i]);
+                    temp.add(nums[left]);
+                    temp.add(nums[right]);
+                    triplets.add(temp);
+                    
+                    left++;
+                    right--;
+
+
+                } else if(target > nums[left] + nums[right]){
+                    left++;
+                } else{
+                    right--;
+                }
+
+            }
+
+        }
+
+        return new ArrayList<>(triplets);
+
+    }
+}

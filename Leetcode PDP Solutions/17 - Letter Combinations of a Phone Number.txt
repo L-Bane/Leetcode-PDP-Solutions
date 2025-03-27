@@ -1,0 +1,59 @@
+/**
+ * Runtime: 0ms (Beats 100%)
+ * Runtime: 42MB (Beats 78.41%)
+ */
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+
+        List<String> result = new ArrayList<>();
+
+        // When there are no digits, return an empty list
+        if (digits.length() == 0) {
+            return result;
+        }
+        
+        // Setting up hashmap with numbers to letters
+        Map<Character, String[]> hashMap = new HashMap<>();
+        
+        hashMap.put('2', new String[]{"a", "b", "c"});
+        hashMap.put('3', new String[]{"d", "e", "f"});
+        hashMap.put('4', new String[]{"g", "h", "i"});
+        hashMap.put('5', new String[]{"j", "k", "l"});
+        hashMap.put('6', new String[]{"m", "n", "o"});
+        hashMap.put('7', new String[]{"p", "q", "r", "s"});
+        hashMap.put('8', new String[]{"t", "u", "v"});
+        hashMap.put('9', new String[]{"w", "x", "y", "z"});
+
+        // calling recursive backtracking
+        backtrack(result, hashMap, digits, 0, new StringBuilder());
+
+        return result;
+    }
+
+
+    // Idea: for each possible character for a digit, add the letter to the 'cur' string then call backtrack algorithm to get the next digit
+    // Once, that branch is exhausted, remove the char from the string then repeat for the next possible char
+    // Once the end of digits has been reached, the combination is fully formed and that branch can be terminated 
+    private void backtrack(List<String> result, Map<Character, String[]> hashMap, String digits, int index, StringBuilder current) {
+    // Base case: if the current combination is complete, add it to the result
+    if (index == digits.length()) {
+        result.add(current.toString());
+        return;
+    }
+
+    // Get the letters corresponding to the current digit
+    char digit = digits.charAt(index);
+    String[] letters = hashMap.get(digit);
+
+    // Iterate through all possible letters for the current digit
+    for (String letter : letters) {
+        // Append the current letter to the combination
+        current.append(letter);
+        // Recurse for the next digit
+        backtrack(result, hashMap, digits, index + 1, current);
+        // Backtrack: remove the last letter to try the next one
+        current.deleteCharAt(current.length() - 1);
+    }
+}
+}

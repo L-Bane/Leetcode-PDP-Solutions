@@ -1,0 +1,44 @@
+/**
+ * Runtime 0ms (Beats 100%)
+ * Memory 43MB (Beats 76.55%)
+ */
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+
+        if (n == 1){
+            result.add("()");
+            return result;
+        }
+
+        backtrack(result, n, 0, 0, new StringBuilder());
+
+        return result;
+
+    }
+
+    private void backtrack(List<String> result, int n, int numOpen, int numClosed, StringBuilder current){
+
+        // Base case: if the current string has the required length, add it to the result
+        if (current.length() == n * 2) {
+            result.add(current.toString());
+            return;
+        }
+
+        // Add an open brack if possible
+        if (numOpen < n) {
+            current.append("(");
+            backtrack(result, n, numOpen + 1, numClosed, current);
+            current.deleteCharAt(current.length() - 1); // Remove the open bracket to try if the bracket was a ")"
+        }
+
+        // Add a closed bracket if possible (number of closed can never excede number open)
+        if (numClosed < numOpen) {
+            current.append(")");
+            backtrack(result, n, numOpen, numClosed + 1, current);
+            current.deleteCharAt(current.length() - 1); // Backtrack
+        }
+
+    }
+}

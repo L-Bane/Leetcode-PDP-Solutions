@@ -1,0 +1,65 @@
+/**
+ * Runtime: 3ms (Beats 4.58%)
+ * Memory: 44.7MB (Beats 22.66%)
+ */
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        // If there is nothing to reverse or, reversing in groups of 1, return itself
+        if (head == null || k == 1) {
+            return head; 
+        }
+
+        Stack<ListNode> s = new Stack<ListNode>();
+
+        // stack size = k
+        // Idea: push nodes onto the stack until full
+        // Once full, pop nodes off the stack
+        // Repeat until the list is empty
+
+        ListNode temp = head;
+
+        // List to return
+        ListNode result = new ListNode();
+        ListNode hResult = result;
+
+        while (temp != null){
+            // Pushing items onto the stack until stack is full or no more items to add
+            for (int i = 0; i < k && temp != null; i++){
+                s.push(temp);
+                temp = temp.next;
+            }
+            
+            // If stack is full, add in reverse order
+            if(s.size() == k){
+                while(!s.isEmpty()){
+                    result.next = s.pop();
+                    result = result.next;
+                }
+            } else { // If stack is not full, add in original order
+                while(!s.isEmpty()){
+                    result.next = s.remove(0);
+                    result = result.next;
+                }
+            }
+        }
+
+        // Terminate the list by adding null to the tail
+        result.next = null;
+
+        // Head val is null, so return the next node in the list
+        return hResult.next;
+
+    }
+}

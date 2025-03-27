@@ -1,0 +1,57 @@
+/**
+ * Runtime: 2ms (Beats 58.15%)
+ * Memory: 46.13MB (Beats 59.24%)
+ */
+
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        // Idea: Merge Sort until we reach the desired position
+        // Cases: odd length: get the middle
+        //        even length: get the average of the above and below values
+
+
+        int arrSize = nums1.length + nums2.length;
+        int halfSize = (arrSize / 2) + 1;
+        // Integer pointers to track the position in the array
+        int arr1P = 0;
+        int arr2P = 0;
+        // Array list to handle values inputted
+        List<Integer> newNums = new ArrayList<Integer>();
+
+        // Log(n) complexity, so top half of the merged arrays can be discarded
+        while (newNums.size() < halfSize){
+
+            // if nums1 has been exhausted, only add from num2
+            if (arr1P >= nums1.length){
+                newNums.add(nums2[arr2P]);
+                arr2P++;
+                continue;
+            }
+
+            // if nums2 has been exhausted, only add from nums1
+            if (arr2P >= nums2.length){
+                newNums.add(nums1[arr1P]);
+                arr1P++;
+                continue;
+            }
+
+            // Comparison for merge
+            if(nums1[arr1P] <= nums2[arr2P]){
+                newNums.add(nums1[arr1P]);
+                arr1P++;
+            } else{
+                newNums.add(nums2[arr2P]);
+                arr2P++;
+            }
+
+        }
+
+        // When total array size is even, compute the average of last two elements
+        if (arrSize % 2 == 0){
+            return (newNums.get(halfSize - 1) + newNums.get(halfSize - 2)) / 2.0;
+        }
+
+        // Array is even, so just return last value
+        return (double) newNums.get(halfSize - 1);
+    }
+}

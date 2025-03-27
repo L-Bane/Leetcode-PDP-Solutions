@@ -1,0 +1,71 @@
+/**
+ * Runtime: 3ms (Beats 55.23%)
+ * Memory 43.9MB (Beats 98.94%)
+ */
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+
+        // Idea: Use sets to store data about the sodoku board
+        // When a set tries to add data that already exists, a false value is returned
+        // Use the false value to determine if the sudoku is valid
+
+        // Creating array lists of sets to store rows, columns and sub 3x3 grids
+        List<Set<Character>> rows = new ArrayList<>(9);
+        List<Set<Character>> cols = new ArrayList<>(9);
+        List<List<Set<Character>>> subGrids = new ArrayList<>(3);
+
+        // Setting up array lists for subgrids now -- easier to handle before looping
+        subGrids.add(new ArrayList<>(3));
+        subGrids.add(new ArrayList<>(3));
+        subGrids.add(new ArrayList<>(3));
+
+        // Looping over each row
+        for(int i = 0; i < 9; i++){
+
+            // Looping over each column
+            for(int j = 0; j < 9; j++){
+
+                // When i is 0, populate the columns array list
+                if(i == 0){
+                    Set<Character> newCol = new HashSet<>();
+                    cols.add(newCol);
+                } 
+
+                // When j is 0, populate the rows array list
+                if (j == 0){
+                    Set<Character> newRow = new HashSet<>();
+                    rows.add(newRow);
+                }
+
+                // If we are at the top left corner of a subgrid, add a new subgrid
+                if (i % 3 == 0 && j % 3 == 0){
+
+                    Set<Character> newGrid = new HashSet<>();
+                    subGrids.get(i / 3).add(newGrid);
+                }
+
+                // Position is blank, continue to next location
+                if (board[i][j] == '.') continue;
+
+                // Checking row condition
+                Set<Character> curRow = rows.get(i);
+                if (curRow.add(board[i][j]) == false) return false;
+
+                // Checking column condition
+                Set<Character> curCol = cols.get(j);
+                if (curCol.add(board[i][j]) == false) return false;
+
+                // Checking subgrid condtiion
+                Set<Character> curGrid = subGrids.get(i / 3).get(j / 3);
+                if (curGrid.add(board[i][j]) == false) return false;
+
+            }
+
+        }
+
+        // Program never returned false so, result is true
+        return true;
+        
+    }
+}

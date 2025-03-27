@@ -1,0 +1,76 @@
+/**
+ * Runtime: 66ms (Beats 15.24%)
+ * Memory: 46MB (--)
+ */
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        
+        if (lists.length == 0) return null;
+
+        ListNode fst = lists[0];
+
+        for(int i = 1; i < lists.length; i++){
+
+            fst = mergeTwoLists(fst, lists[i]);
+
+        }
+
+        return fst;
+
+    }
+
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        
+        ListNode temp1 = list1;
+        ListNode temp2 = list2;
+        ListNode newList = new ListNode();
+        ListNode head = newList;
+
+        while(temp1 != null || temp2 != null){
+
+            if (temp1 == null){
+                newList.next = temp2;
+                temp2 = null;
+                continue;
+            }
+
+            if (temp2 == null){
+                newList.next = temp1;
+                temp1 = null;
+                continue;
+            }
+
+            ListNode newNode = new ListNode(0, null);
+
+            if (temp1.val <= temp2.val){
+                newNode.val = temp1.val;
+                newList.next = newNode;
+                temp1 = temp1.next;
+               
+            } else{
+                newNode.val = temp2.val;
+                newList.next = newNode;
+                temp2 = temp2.next;
+
+            }
+
+            newList = newList.next;
+
+        }
+
+        return head.next;
+
+    }
+}
